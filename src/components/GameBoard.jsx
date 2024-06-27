@@ -36,7 +36,10 @@ export default function GameBoard({ onSelectSquare, turns }) {
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
                 {/* <button onClick={() => handleSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button> */}
-                <button onClick={() => onSelectSquare(rowIndex, colIndex)}>
+                <button
+                  onClick={() => onSelectSquare(rowIndex, colIndex)}
+                  disabled={playerSymbol !== null} //조건적 버튼 비활성화
+                >
                   {playerSymbol}
                 </button>
               </li>
