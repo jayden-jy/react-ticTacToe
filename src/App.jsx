@@ -39,10 +39,25 @@ function App() {
     gameBoard[row][col] = player;
   }
 
+  let winner; // 이 변수는 초기에는 할당되어 있지 않았거나 null인 상태. 아직 승자가 없는 상태
+
+  // 우승조합 대조
   for (const combinations of WINNING_COMBINATIONS) {
-    const firstSquareSymbol = gameBoard[]
-    const secondSquareSymbol
-    const thirdSquareSymbol
+    const firstSquareSymbol =
+      gameBoard[combinations[0].row][combinations[0].column];
+    const secondSquareSymbol =
+      gameBoard[combinations[1].row][combinations[1].column];
+    const thirdSquareSymbol =
+      gameBoard[combinations[2].row][combinations[2].column];
+
+    // 심볼이 비어있지않고, 첫번째심볼이 두번째,세번째 심볼과 동일한지?
+    if (
+      firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol
+    ) {
+      winner = firstSquareSymbol;
+    }
   }
 
   function handleSelectSquare(rowIndex, colIndex) {
@@ -79,6 +94,9 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
+        {/* &&연산자를 통해서 winner가 true인지 확인 */}
+        {winner && <p>{winner}, 당신이 이겼습니다!</p>}
+
         <GameBoard
           onSelectSquare={handleSelectSquare}
           // activePlayerSymbol={activePlayer}
