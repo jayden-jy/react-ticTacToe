@@ -3,6 +3,7 @@ import { useState } from "react";
 import Player from "./components/Player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
+import GameOver from "./components/GameOver.jsx";
 import { WINNING_COMBINATIONS } from "./winning-combinations.js";
 
 // 게임보드 초기상태
@@ -60,6 +61,9 @@ function App() {
     }
   }
 
+  // 무승부인 케이스
+  const hasDraw = gameTurns.length === 9 && !winner;
+
   function handleSelectSquare(rowIndex, colIndex) {
     // setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
     setGameTurns((prevTurns) => {
@@ -95,7 +99,7 @@ function App() {
           />
         </ol>
         {/* &&연산자를 통해서 winner가 true인지 확인 */}
-        {winner && <p>{winner}, 당신이 이겼습니다!</p>}
+        {(winner || hasDraw) && <GameOver winner={winner} />}
 
         <GameBoard
           onSelectSquare={handleSelectSquare}
