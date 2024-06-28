@@ -25,6 +25,10 @@ function deriveActivePlayer(gameTurns) {
 }
 
 function App() {
+  const [players, setPlayers] = useState({
+    X: "player 1",
+    O: "player 2",
+  });
   const [gameTurns, setGameTurns] = useState([]);
   // const [hasWinner, setHasWinner] = useState(flase); // 우승조합이 있는지 확인. gameTurns에서도 확인가능.
   // const [activePlayer, setActivePlayer] = useState("X");
@@ -59,7 +63,7 @@ function App() {
       firstSquareSymbol === secondSquareSymbol &&
       firstSquareSymbol === thirdSquareSymbol
     ) {
-      winner = firstSquareSymbol;
+      winner = players[firstSquareSymbol];
     }
   }
 
@@ -85,9 +89,18 @@ function App() {
     });
   }
 
-  // 재시작 함수
+  // 게임재시작 함수
   function handleRestart() {
     setGameTurns([]);
+  }
+
+  function handlePlayerNameChange(symbol, newName) {
+    setPlayers((prevPlayers) => {
+      return {
+        ...prevPlayers,
+        [symbol]: newName,
+      };
+    });
   }
 
   return (
@@ -98,11 +111,13 @@ function App() {
             initialName="player 1"
             symbol="X"
             isActive={activePlayer === "X"}
+            onChangeName={handlePlayerNameChange}
           />
           <Player
             initialName="player 2"
             symbol="O"
             isActive={activePlayer === "O"}
+            onChangeName={handlePlayerNameChange}
           />
         </ol>
         {/* &&연산자를 통해서 winner가 true인지 확인 */}

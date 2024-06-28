@@ -1,12 +1,21 @@
 import { useState } from "react";
 
-export default function player({ initialName, symbol, isActive }) {
+export default function player({
+  initialName,
+  symbol,
+  isActive,
+  onChangeName,
+}) {
   const [playerName, setPlayerName] = useState(initialName);
   const [isEditing, setisEditing] = useState(false);
 
   function handleEditClick() {
     //setisEditing(!isEditing); // 해당값이 반전 됨. 이 방법은 여러 번의 상태 업데이트가 일어날 때 정확하게 동작하지 않을 수 있음
     setisEditing((editing) => !editing);
+
+    if (isEditing) {
+      onChangeName(symbol, playerName);
+    }
   }
 
   function handleChange(event) {
