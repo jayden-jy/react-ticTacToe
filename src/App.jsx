@@ -31,8 +31,10 @@ function App() {
 
   const activePlayer = deriveActivePlayer(gameTurns);
 
-  let gameBoard = initialGameBoard;
+  // let gameBoard = initialGameBoard; // 이 경우 게임이 진행된에 따라 initialGameBoard도 변경되어 handleRestart 함수로 초기화가 재대로 이루어지지않음. 아래처럼 복사본을 이용해야함
+  let gameBoard = [...initialGameBoard.map((array) => [...array])];
 
+  // gameTurns가 업데이트 될때 루프 재실행 됨
   for (const turn of gameTurns) {
     const { square, player } = turn;
     const { row, col } = square;
@@ -83,6 +85,11 @@ function App() {
     });
   }
 
+  // 재시작 함수
+  function handleRestart() {
+    setGameTurns([]);
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -99,7 +106,9 @@ function App() {
           />
         </ol>
         {/* &&연산자를 통해서 winner가 true인지 확인 */}
-        {(winner || hasDraw) && <GameOver winner={winner} />}
+        {(winner || hasDraw) && (
+          <GameOver winner={winner} onRestart={handleRestart} />
+        )}
 
         <GameBoard
           onSelectSquare={handleSelectSquare}
